@@ -84,8 +84,6 @@ def get_user_preferrences(u_index, user_history, top_k=3):
                 if msg not in preferrence:
                     preferrence.append(msg)
         preferrences.append(preferrence)
-        print("preferrences")
-        print(preferrences) 
     return preferrences
 
 def generate_cocktail_response(user_query, cocktails, user_preferrences):
