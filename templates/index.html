@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cocktail Recommender</title>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6));
+            font-family: 'Arial', sans-serif;
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 90%;
+            width: 500px;
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #f8d948;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        input[type="text"] {
+            width: 80%;
+            padding: 12px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 25px;
+            background-color: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+        }
+
+        button {
+            background-color: #f8d948;
+            color: #000;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #fae27c;
+            transform: scale(1.05);
+        }
+
+        #response {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            min-height: 50px;
+        }
+    </style>
+    <script>
+        async function getRecommendation() {
+            let query = document.getElementById("query").value;
+            try {
+                let response = await fetch("/recommend", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ query: query })
+                });
+                let data = await response.json();
+                document.getElementById("response").innerText = data.recommendation;
+            } catch (error) {
+                document.getElementById("response").innerText = "Sorry, there was an error getting your recommendation. Please try again.";
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h2>Cocktail Advisor</h2>
+        <input type="text" id="query" placeholder="Tell us what you like in a drink...">
+        <button onclick="getRecommendation()">Get Recommendation</button>
+        <p id="response"></p>
+    </div>
+</body>
+</html>
